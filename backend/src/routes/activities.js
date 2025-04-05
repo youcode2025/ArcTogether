@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const activityController = require('../controllers/activityController');
 
 // Activities
 router.post('/create', authenticateUser, createActivity);
