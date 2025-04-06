@@ -24,18 +24,21 @@ export default function CreateEventModal({ onClose, onSubmit }: CreateEventModal
     e.preventDefault();
 
     const transformedData: any = {
-      title: formData.title,
-      description: formData.description,
-      date: new Date(formData.date).toISOString(),
-      location: formData.location,
-      participants: {
-      current: 0,
-      maximum: formData.maxParticipants,
-      },
-      points: formData.pointsEarned,
-      imageUrl: formData.imageUrl,
-      host: formData.hostName,
-      category: formData.category,
+        title: formData.title,
+        description: formData.description,
+        date: new Date(formData.date).toISOString(),
+        location: formData.location,
+        currentParticipants: 0,
+        maxParticipants: formData.maxParticipants,
+        pointsEarned: formData.pointsEarned,
+      //   participants: {
+      //   current: 0,
+      //   maximum: formData.maxParticipants,
+      //   },
+      //   points: formData.pointsEarned,
+        imageUrl: formData.imageUrl,
+        host: formData.hostName,
+        category: formData.category,  
     };
 
     // SAMPLE DATA FORMAT

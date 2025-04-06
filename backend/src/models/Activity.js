@@ -18,17 +18,16 @@ const activitySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  participants: {
-    current: {
-      type: Number,
-      default: 0
-    },
-    maximum: {
-      type: Number,
-      required: true
-    }
+  
+  currentParticipants: {
+    type: Number,
+    default: 0
   },
-  points: {
+  maxParticipants: {
+    type: Number,
+    required: true
+  },
+  pointsEarned: {
     type: Number,
     required: true
   },
