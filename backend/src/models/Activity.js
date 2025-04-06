@@ -29,7 +29,7 @@ const activitySchema = new mongoose.Schema({
     }
   },
   points: {
-    type: number,
+    type: Number,
     required: true
   },
   imageUrl: {
