@@ -23,6 +23,7 @@ export interface Reward {
 export interface RewardCardProps {
   reward: Reward;
   onClaim: (rewardId: string) => void;
+  userPoints: number;
 }
 
 export interface EventCardProps {

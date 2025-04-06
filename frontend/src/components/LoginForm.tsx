@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, LogIn, User, Lock } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -11,6 +12,7 @@ const LoginForm = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,9 +30,24 @@ const LoginForm = () => {
       // Simulate login delay
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      // Simulate successful login
+      // For demo purposes, any username/password combination works
+      // In a real app, you would validate with a backend
+      const userData = {
+        id: '1',
+        name: username,
+        points: 150,
+        activitiesHosted: [],
+        activitiesJoined: [],
+        skills: '',
+      };
+
+      // Use the login function from AuthContext
+      login(userData);
+      
       setSuccessMessage('Login successful! Welcome back.');
-      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Small delay for showing success message before redirect
+      await new Promise(resolve => setTimeout(resolve, 500));
       navigate('/');
     } catch (error) {
       setErrorMessage('Login failed. Please check your credentials and try again.');

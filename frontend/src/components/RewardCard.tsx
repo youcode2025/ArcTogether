@@ -2,7 +2,8 @@ import React from 'react';
 import { Award, ShoppingBag } from 'lucide-react';
 import { RewardCardProps } from '../types';
 
-export default function RewardCard({ reward, onClaim }: RewardCardProps) {
+export default function RewardCard({ reward, onClaim, userPoints }: RewardCardProps) {
+  const canRedeem = userPoints >= reward.pointsRequired;
   
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden transition-transform hover:scale-[1.02] border border-gray-100">
@@ -31,9 +32,14 @@ export default function RewardCard({ reward, onClaim }: RewardCardProps) {
           </span>
           <button
             onClick={() => onClaim(reward.id)}
-            className="px-4 py-2 rounded-md font-medium bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+            disabled={!canRedeem}
+            className={`px-4 py-2 rounded-md font-medium ${
+              canRedeem 
+                ? 'bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200' 
+                : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+            }`}
           >
-            Redeem
+            {canRedeem ? 'Redeem' : 'Not Enough Points'}
           </button>
         </div>
       </div>

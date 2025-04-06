@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
-import { Reward, User } from '../types';
+import React, { useState, useEffect } from 'react';
+import { Reward } from '../types';
 import RewardCard from '../components/RewardCard';
-import { PlusCircle, Compass, Award } from 'lucide-react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { PlusCircle, Compass, Award, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Notification from '../components/Notification';
-
-// Use the same mockUser as in HomePage
-const mockUser: User = {
-  id: '1',
-  name: 'John Doe',
-  points: 150,
-  activitiesHosted: [],
-  activitiesJoined: [],
-  skills: '',
-};
+import { useAuth } from '../contexts/AuthContext';
 
 const mockRewards: Reward[] = [
     {
@@ -40,18 +31,26 @@ const mockRewards: Reward[] = [
   ];
 
 export default function RewardPage () {
-    const [user, setUser] = useState<User>(mockUser);
+    const { user, logout, updateUser } = useAuth();
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
     
     const handleClaimReward = (rewardId: string) => {
         const reward = mockRewards.find(r => r.id === rewardId);
-        if (reward && user.points >= reward.pointsRequired) {
-            setUser(prev => ({
-                ...prev,
-                points: prev.points - reward.pointsRequired
-            }));
+        if (reward && user && user.points >= reward.pointsRequired) {
+            // Calculate updated points
+            const updatedPoints = user.points - reward.pointsRequired;
+            
+            // Create updated user object
+            const updatedUser = {
+                ...user,
+                points: updatedPoints
+            };
+            
+            // Update user through AuthContext
+            updateUser(updatedUser);
+            
             // Show success notification
             setNotificationMessage(`Successfully redeemed: ${reward.title}`);
             setNotificationType('success');
@@ -62,6 +61,10 @@ export default function RewardPage () {
             setNotificationType('error');
             setShowNotification(true);
         }
+    };
+    
+    const handleLogout = () => {
+        logout();
     };
     
     return (
@@ -83,7 +86,7 @@ export default function RewardPage () {
                 <div className="flex items-center space-x-4">
                 <div className="flex items-center text-gray-700">
                     <Award className="h-5 w-5 text-gray-500 mr-2" />
-                    <span className="font-medium">{user.points} Points</span>
+                    <span className="font-medium">{user?.points || 0} Points</span>
                 </div>
                 <button
                     className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
@@ -95,7 +98,14 @@ export default function RewardPage () {
                     className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
                 >
                     <PlusCircle className="w-5 h-5" />
-                    <Link to="/">Host Event</Link>
+                    <Link to="/">Home</Link>
+                </button>
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+                >
+                    <LogOut className="w-5 h-5" />
+                    <span>Logout</span>
                 </button>
                 </div>
             </div>
@@ -131,6 +141,7 @@ export default function RewardPage () {
                         key={reward.id}
                         reward={reward}
                         onClaim={handleClaimReward}
+                        userPoints={user?.points || 0}
                     />
                 ))}
             </div>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { PlusCircle, Compass, Award } from 'lucide-react';
+import { PlusCircle, Compass, Award, LogOut } from 'lucide-react';
 import EventCard from './components/EventCard';
 import CreateEventModal from './components/CreateEventModal';
 import Notification from './components/Notification';
-import { Event, User } from './types';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import type { Event } from './types';
+import { Link } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
 
 // Sample data
-const mockUser: User = {
+const mockUser = {
   id: '1',
   name: 'John Doe',
   points: 150,
@@ -59,45 +60,67 @@ const initialEvents: Event[] = [
 ];
 
 function HomePage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>(initialEvents);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [joinedEvents, setJoinedEvents] = useState<Set<string>>(new Set());
-  const [user, setUser] = useState<User>(mockUser);
+  const [joinedEvents, setJoinedEvents] = useState<Set<string>>(() => {
+    // Try to get joined events from localStorage
+    const savedJoinedEvents = localStorage.getItem('joinedEvents');
+    return savedJoinedEvents ? new Set(JSON.parse(savedJoinedEvents)) : new Set();
+  });
+  
+  const { user, logout, updateUser } = useAuth();
+  
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
 
+  // Save joined events to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem('joinedEvents', JSON.stringify([...joinedEvents]));
+  }, [joinedEvents]);
+
   useEffect(() => {
     const fetchEvents = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/activities');
-            const data = await response.json();
-            setEvents(data);
-        } catch (error) {
-            console.error('Error fetching events:', error);
+      try {
+        const response = await fetch('http://localhost:3000/api/activities');
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setEvents(data);
         }
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        // Keep using initialEvents if there's an error
+      }
     };
 
     fetchEvents();
-}, []);
+  }, []);
 
   const handleJoinEvent = (eventId: string) => {
     if (!joinedEvents.has(eventId)) {
       const event = events.find(e => e._id === eventId);
-      if (event) {
+      if (event && user) {
         setEvents(events.map(e => 
-        e._id === eventId
-        ? { ...e, currentParticipants: e.currentParticipants + 1 }
+          e._id === eventId
+            ? { ...e, currentParticipants: e.currentParticipants + 1 }
             : e
         ));
         setJoinedEvents(prev => new Set([...prev, eventId]));
         
-        // Update user points
-        setUser(prev => ({
-          ...prev,
-          points: prev.points + event.pointsEarned
-        }));
+        // Update user points in auth context
+        if (user) {
+          const updatedPoints = user.points + event.pointsEarned;
+          
+          // Create updated user object
+          const updatedUser = {
+            ...user,
+            points: updatedPoints
+          };
+          
+          // Update user through AuthContext
+          updateUser(updatedUser);
+        }
         
         // Show notification
         setNotificationMessage(`You earned ${event.pointsEarned} points!`);
@@ -114,6 +137,10 @@ function HomePage() {
       currentParticipants: 0
     };
     setEvents([...events, event]);
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   const categories = ['All', 'Hiking', 'Cycling', 'Camping', 'Rock Climbing', 'Kayaking'];
@@ -141,7 +168,7 @@ function HomePage() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center text-gray-700">
                 <Award className="h-5 w-5 text-gray-500 mr-2" />
-                <span className="font-medium">{user.points} Points</span>
+                <span className="font-medium">{user?.points || 0} Points</span>
               </div>
               <button
                 className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
@@ -155,6 +182,13 @@ function HomePage() {
               >
                 <PlusCircle className="w-5 h-5" />
                 <span>Host Event</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+              >
+                <LogOut className="w-5 h-5" />
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -177,7 +211,7 @@ function HomePage() {
           
           <div className="flex flex-col md:flex-row items-center justify-between relative z-10">
             <div className="text-center md:text-left mb-4 md:mb-0">
-              <h2 className="text-3xl font-bold text-white mb-2">Powered by Arc'teryx</h2>
+              <h2 className="text-3xl font-bold text-white mb-2">Welcome, {user?.name}</h2>
               <p className="text-white text-lg">Experience the outdoors with premium gear and equipment</p>
             </div>
 

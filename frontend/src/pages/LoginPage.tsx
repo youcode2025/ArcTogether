@@ -1,7 +1,23 @@
-
+import React from 'react';
 import LoginForm from '../components/LoginForm';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const LoginPage = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // If loading, show loading spinner
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  // If already authenticated, redirect to home
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Otherwise show login page
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-gray-800/90 to-gray-600/90 relative overflow-hidden">
       {/* Nature-themed background elements */}
