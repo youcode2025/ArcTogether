@@ -58,6 +58,15 @@ app.post('/api/activities', async (req, res) => {
     }
 });
 
+app.get('/api/activities', async (req, res) => {
+    try {
+        const activities = await Activity.find();
+        res.status(200).json(activities);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
 app.post('/api/activities/:activityId/join', async (req, res) => {
   try{
     const { userId } = req.body;

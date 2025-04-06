@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { PlusCircle, Compass, Award } from 'lucide-react';
 import EventCard from './components/EventCard';
 import CreateEventModal from './components/CreateEventModal';
@@ -59,12 +59,26 @@ const initialEvents: Event[] = [
 ];
 
 function HomePage() {
-  const [events, setEvents] = useState<Event[]>(initialEvents);
+  const [events, setEvents] = useState<Event[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [joinedEvents, setJoinedEvents] = useState<Set<string>>(new Set());
   const [user, setUser] = useState<User>(mockUser);
   const [notification, setNotification] = useState<{ message: string } | null>(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/activities');
+            const data = await response.json();
+            setEvents(data);
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        }
+    };
+
+    fetchEvents();
+}, []);
 
   const handleJoinEvent = (eventId: string) => {
     if (!joinedEvents.has(eventId)) {
