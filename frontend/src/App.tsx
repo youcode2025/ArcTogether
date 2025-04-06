@@ -91,8 +91,15 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <Compass className="w-8 h-8 text-gray-800" />
-              <h1 className="text-2xl font-bold text-gray-800 tracking-tight">OUTDOOR EXCHANGE</h1>
+              <div className="flex items-center space-x-4">
+                <img 
+                  src="https://1000logos.net/wp-content/uploads/2022/05/Arcteryx-Logo.png" 
+                  alt="Arc'teryx Logo" 
+                  className="h-8 w-auto"
+                />
+                {/* <Compass className="w-8 h-8 text-gray-800" /> */}
+                <h1 className="text-2xl font-bold text-gray-800 tracking-tight">OUTDOOR EXCHANGE</h1>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center text-gray-700">
@@ -112,6 +119,28 @@ function App() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        {/* Arc'teryx Branding Section */}
+        <div 
+          className="mb-8 rounded-lg shadow-sm p-6 relative overflow-hidden"
+          style={{
+            backgroundImage: `url('https://www.outdoorsinc.com/cdn/shop/collections/arcteryx.png?v=1628011809')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            minHeight: '200px'
+          }}
+        >
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          
+          <div className="flex flex-col md:flex-row items-center justify-between relative z-10">
+            <div className="text-center md:text-left mb-4 md:mb-0">
+              <h2 className="text-3xl font-bold text-white mb-2">Powered by Arc'teryx</h2>
+              <p className="text-white text-lg">Experience the outdoors with premium gear and equipment</p>
+            </div>
+
+          </div>
+        </div>
+
         {/* Category Filter */}
         <div className="flex space-x-4 mb-8 overflow-x-auto pb-4">
           {categories.map(category => (
