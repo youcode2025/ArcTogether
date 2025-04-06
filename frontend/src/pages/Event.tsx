@@ -307,30 +307,101 @@ const Event = () => {
 
   const handleUploadPhoto = () => {
     if (previewImage) {
-      // Add the new photo to the photos array
-      const newPhotos = [...photos, previewImage];
-      setPhotos(newPhotos);
-      
-      // Save photos to localStorage
-      if (id) {
-        localStorage.setItem(`event_photos_${id}`, JSON.stringify(newPhotos));
+      try {
+        // Create a smaller version of the image to save space in localStorage
+        const canvas = document.createElement('canvas');
+        const img = new Image();
+        
+        img.onload = () => {
+          // Calculate new dimensions (max 800px width or height while maintaining aspect ratio)
+          const maxDimension = 800;
+          let width = img.width;
+          let height = img.height;
+          
+          if (width > height && width > maxDimension) {
+            height = (height / width) * maxDimension;
+            width = maxDimension;
+          } else if (height > maxDimension) {
+            width = (width / height) * maxDimension;
+            height = maxDimension;
+          }
+          
+          // Resize image
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Convert to compressed JPEG format with reduced quality
+          const compressedImage = canvas.toDataURL('image/jpeg', 0.7);
+          
+          // Add the new photo to the photos array
+          const newPhotos = [...photos, compressedImage];
+          setPhotos(newPhotos);
+          
+          try {
+            // Save photos to localStorage
+            if (id) {
+              localStorage.setItem(`event_photos_${id}`, JSON.stringify(newPhotos));
+            }
+            
+            // Update the event with the new photo
+            setEvent({
+              ...event,
+              photos: newPhotos
+            });
+            
+            // Reset the input
+            setImageFile(null);
+            setPreviewImage(null);
+            
+            // Show success notification
+            setNotificationMessage("Photo uploaded successfully!");
+            setNotificationType("success");
+            setShowNotification(true);
+          } catch (error) {
+            if (error instanceof DOMException && error.name === 'QuotaExceededError') {
+              // Show error notification for quota exceeded
+              setNotificationMessage("Storage limit reached. Try removing some photos first or using smaller images.");
+              setNotificationType("error");
+              setShowNotification(true);
+            } else {
+              throw error;
+            }
+          }
+        };
+        
+        // Set source to the original image to trigger the onload event
+        img.src = previewImage;
+      } catch (error) {
+        console.error("Error uploading photo:", error);
+        setNotificationMessage("Failed to upload photo. Please try again with a smaller image.");
+        setNotificationType("error");
+        setShowNotification(true);
       }
-      
-      // Update the event with the new photo
-      setEvent({
-        ...event,
-        photos: newPhotos
-      });
-      
-      // Reset the input
-      setImageFile(null);
-      setPreviewImage(null);
-      
-      // Show notification
-      setNotificationMessage("Photo uploaded successfully!");
-      setNotificationType("success");
-      setShowNotification(true);
     }
+  };
+
+  const handleDeletePhoto = (index: number) => {
+    const newPhotos = [...photos];
+    newPhotos.splice(index, 1);
+    setPhotos(newPhotos);
+    
+    // Update localStorage with new array
+    if (id) {
+      localStorage.setItem(`event_photos_${id}`, JSON.stringify(newPhotos));
+    }
+    
+    // Update the event state
+    setEvent({
+      ...event,
+      photos: newPhotos
+    });
+    
+    // Show notification
+    setNotificationMessage("Photo deleted successfully!");
+    setNotificationType("success");
+    setShowNotification(true);
   };
 
   const handleLogout = () => {
@@ -522,12 +593,21 @@ const Event = () => {
           {photos.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {photos.map((photo, index) => (
-                <div key={index} className="aspect-square rounded-md overflow-hidden border border-gray-200">
+                <div key={index} className="aspect-square rounded-md overflow-hidden border border-gray-200 relative group">
                   <img
                     src={photo}
                     alt={`Event photo ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
+                  <button
+                    onClick={() => handleDeletePhoto(index)}
+                    className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Delete photo"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </button>
                 </div>
               ))}
             </div>
