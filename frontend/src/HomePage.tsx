@@ -183,129 +183,138 @@ function HomePage() {
   const filteredEvents = selectedCategory === 'All' 
     ? events 
     : events.filter(event => event.category === selectedCategory);
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-4">
-                <img 
-                  src="\src\assets\images\ArctgtLogoB.png" 
-                  alt="Arc'teryx Logo" 
-                  className="h-8 w-auto"
-                />
-                {/* <Compass className="w-8 h-8 text-gray-800" /> */}
-                <img 
+    return (
+      <div className="relative min-h-screen bg-gray-50">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('https://uploads-ssl.webflow.com/5a9ee6416e90d20001b20038/6289f10918a3479222c3bdd0_gray-gradient.png')",
+            filter: "brightness(0.6) blur(15px)",
+          }}
+        ></div>
+    
+        {/* Glassmorphism Overlay Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+    
+        {/* Header */}
+        <header className="relative bg-white/20 backdrop-blur-md border border-white/30 shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src="\src\assets\images\ArctgtLogoB.png"
+                    alt="Arc'teryx Logo"
+                    className="h-8 w-auto"
+                  />
+                  <img 
                         src="\src\assets\images\ArctgtTextB.png" 
                         alt="Arc'Together Text Logo" 
                         className="h-6 w-auto"
                     />
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center text-gray-700">
+                  <Award className="h-5 w-5 text-gray-500 mr-2" />
+                  <span className="font-medium">{user?.points || 0} Points</span>
+                </div>
+                <button
+                  className="flex items-center space-x-2 bg-gray-800/90 text-white px-4 py-2 rounded-md hover:bg-gray-900/90 transition-colors duration-200"
+                >
+                  <PlusCircle className="w-5 h-5" />
+                  <Link to="/reward">Reward</Link>
+                </button>
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="flex items-center space-x-2 bg-gray-800/90 text-white px-4 py-2 rounded-md hover:bg-gray-900/90 transition-colors duration-200"
+                >
+                  <PlusCircle className="w-5 h-5" />
+                  <span>Host Event</span>
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Logout</span>
+                </button>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center text-gray-700">
-                <Award className="h-5 w-5 text-gray-500 mr-2" />
-                <span className="font-medium">{user?.points || 0} Points</span>
+          </div>
+        </header>
+    
+        <main className="relative max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          {/* Arc'teryx Branding Section */}
+          <div
+            className="mb-8 rounded-lg shadow-lg p-6 relative overflow-hidden backdrop-blur-xl bg-white/20 border border-white/30"
+            style={{
+              backgroundImage: `url('https://i.pinimg.com/originals/b2/f4/84/b2f4842ae6aa98a8b7721f648156c7e2.jpg')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              minHeight: '200px',
+            }}
+          >
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+    
+            <div className="flex flex-col md:flex-row items-center justify-between relative z-10">
+              <div className="text-center md:text-left mb-4 md:mb-0">
+                <h2 className="text-3xl font-bold text-white mb-2">Welcome, {user?.name}</h2>
+                <p className="text-white text-lg">Experience the outdoors with premium gear and equipment</p>
               </div>
-              <button
-                className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
-              >
-                <PlusCircle className="w-5 h-5" />
-                <Link to="/reward">Reward</Link>
-              </button>
-              <button
-                onClick={() => setShowCreateModal(true)}
-                className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
-              >
-                <PlusCircle className="w-5 h-5" />
-                <span>Host Event</span>
-              </button>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
-              >
-                <LogOut className="w-5 h-5" />
-                <span>Logout</span>
-              </button>
             </div>
           </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Arc'teryx Branding Section */}
-        <div 
-          className="mb-8 rounded-lg shadow-sm p-6 relative overflow-hidden"
-          style={{
-            backgroundImage: `url('https://www.outdoorsinc.com/cdn/shop/collections/arcteryx.png?v=1628011809')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            minHeight: '200px'
-          }}
-        >
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-          
-          <div className="flex flex-col md:flex-row items-center justify-between relative z-10">
-            <div className="text-center md:text-left mb-4 md:mb-0">
-              <h2 className="text-3xl font-bold text-white mb-2">Welcome, {user?.name}</h2>
-              <p className="text-white text-lg">Experience the outdoors with premium gear and equipment</p>
-            </div>
-
+    
+          {/* Category Filter */}
+          <div className="flex space-x-4 mb-8 overflow-x-auto pb-4">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-md whitespace-nowrap border ${
+                  selectedCategory === category
+                    ? 'bg-gray-800 text-white border-gray-800'
+                    : 'bg-white/20 backdrop-blur-md text-gray-700 border-gray-200 hover:bg-white/50'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
           </div>
-        </div>
-
-        {/* Category Filter */}
-        <div className="flex space-x-4 mb-8 overflow-x-auto pb-4">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-md whitespace-nowrap border ${
-                selectedCategory === category
-                  ? 'bg-gray-800 text-white border-gray-800'
-                  : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Events Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredEvents.map(event => (
-            <EventCard
-              key={event._id}
-              event={event}
-              onJoin={handleJoinEvent}
-              isJoined={joinedEvents.has(event._id)}
+    
+          {/* Events Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredEvents.map((event) => (
+              <EventCard
+                key={event._id}
+                event={event}
+                onJoin={handleJoinEvent}
+                isJoined={joinedEvents.has(event._id)}
+              />
+            ))}
+          </div>
+    
+          {/* Create Event Modal */}
+          {showCreateModal && (
+            <CreateEventModal
+              onClose={() => setShowCreateModal(false)}
+              onSubmit={handleCreateEvent}
             />
-          ))}
-        </div>
-
-        {/* Create Event Modal */}
-        {showCreateModal && (
-          <CreateEventModal
-            onClose={() => setShowCreateModal(false)}
-            onSubmit={handleCreateEvent}
+          )}
+        </main>
+    
+        {/* Notification */}
+        {showNotification && (
+          <Notification
+            message={notificationMessage}
+            type={notificationType}
+            onClose={() => setShowNotification(false)}
           />
         )}
-      </main>
-
-      {/* Notification */}
-      {showNotification && (
-        <Notification
-          message={notificationMessage}
-          type={notificationType}
-          onClose={() => setShowNotification(false)}
-        />
-      )}
-    </div>
-  );
+      </div>
+    );
 }
 
 export default HomePage;
