@@ -31,6 +31,26 @@ const Event = () => {
     return savedJoinedEvents ? new Set(JSON.parse(savedJoinedEvents)) : new Set();
   });
 
+  // Load photos from localStorage
+  useEffect(() => {
+    if (id) {
+      const savedPhotos = localStorage.getItem(`event_photos_${id}`);
+      if (savedPhotos) {
+        setPhotos(JSON.parse(savedPhotos));
+      }
+    }
+  }, [id]);
+
+  // Load reviews from localStorage
+  useEffect(() => {
+    if (id) {
+      const savedReviews = localStorage.getItem(`event_reviews_${id}`);
+      if (savedReviews) {
+        setReviews(JSON.parse(savedReviews));
+      }
+    }
+  }, [id]);
+
   // First fetch all events to help with debugging
   useEffect(() => {
     const fetchAllEvents = async () => {
@@ -67,7 +87,12 @@ const Event = () => {
           
           if (apiEvent && apiEvent._id) {
             setEvent(apiEvent);
-            setPhotos(apiEvent.photos || []);
+            
+            // Don't override user-uploaded photos from localStorage
+            const savedPhotos = localStorage.getItem(`event_photos_${id}`);
+            if (!savedPhotos) {
+              setPhotos(apiEvent.photos || []);
+            }
             
             // Check if user has already joined this event (either in user.activitiesJoined or localStorage)
             if ((user && user.activitiesJoined && user.activitiesJoined.includes(apiEvent._id)) || 
@@ -90,7 +115,12 @@ const Event = () => {
           
           if (foundEventFromApi) {
             setEvent(foundEventFromApi);
-            setPhotos(foundEventFromApi.photos || []);
+            
+            // Don't override user-uploaded photos from localStorage
+            const savedPhotos = localStorage.getItem(`event_photos_${id}`);
+            if (!savedPhotos) {
+              setPhotos(foundEventFromApi.photos || []);
+            }
             
             // Check if user has already joined this event (either in user.activitiesJoined or localStorage)
             if ((user && user.activitiesJoined && user.activitiesJoined.includes(foundEventFromApi._id)) || 
@@ -110,7 +140,12 @@ const Event = () => {
         
         if (foundEvent) {
           setEvent(foundEvent);
-          setPhotos(foundEvent.photos || []);
+          
+          // Don't override user-uploaded photos from localStorage
+          const savedPhotos = localStorage.getItem(`event_photos_${id}`);
+          if (!savedPhotos) {
+            setPhotos(foundEvent.photos || []);
+          }
           
           // Check if user has already joined this event (either in user.activitiesJoined or localStorage)
           if ((user && user.activitiesJoined && user.activitiesJoined.includes(foundEvent._id)) || 
@@ -124,7 +159,12 @@ const Event = () => {
         const foundEvent = initialEvents.find(e => e._id === id);
         if (foundEvent) {
           setEvent(foundEvent);
-          setPhotos(foundEvent.photos || []);
+          
+          // Don't override user-uploaded photos from localStorage
+          const savedPhotos = localStorage.getItem(`event_photos_${id}`);
+          if (!savedPhotos) {
+            setPhotos(foundEvent.photos || []);
+          }
         }
       } finally {
         setIsLoading(false);
@@ -195,8 +235,14 @@ const Event = () => {
     e.preventDefault();
     if (review.trim()) {
       const newReview = `${user?.name || 'Anonymous'}: ${review}`;
-      setReviews([...reviews, newReview]);
+      const updatedReviews = [...reviews, newReview];
+      setReviews(updatedReviews);
       setReview("");
+      
+      // Save reviews to localStorage
+      if (id) {
+        localStorage.setItem(`event_reviews_${id}`, JSON.stringify(updatedReviews));
+      }
       
       // Show notification
       setNotificationMessage("Review submitted successfully!");
@@ -264,6 +310,11 @@ const Event = () => {
       // Add the new photo to the photos array
       const newPhotos = [...photos, previewImage];
       setPhotos(newPhotos);
+      
+      // Save photos to localStorage
+      if (id) {
+        localStorage.setItem(`event_photos_${id}`, JSON.stringify(newPhotos));
+      }
       
       // Update the event with the new photo
       setEvent({
