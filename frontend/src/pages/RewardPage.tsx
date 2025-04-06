@@ -117,7 +117,7 @@ export default function RewardPage () {
             <div 
                 className="mb-8 rounded-lg shadow-sm p-6 relative overflow-hidden"
                 style={{
-                    backgroundImage: `url('https://images.squarespace-cdn.com/content/v1/5346a846e4b0101b157468cf/1581377774342-Y7N77AEEFAHPF0M7KNWE/Arcteryx_F19_BirdHead_DeepCove_JeffBartlett-1155.jpg')`,
+                    backgroundImage: `url('https://cdn.prod.website-files.com/64f1d2cc5e0dab718e3de0c4/64f1d4bda9500669ffb145f6_62d7d2647de98259c48a449a_ss22-arcteryx-hero.jpeg')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     minHeight: '200px'

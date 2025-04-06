@@ -11,6 +11,7 @@ export interface Event {
   imageUrl: string;
   pointsEarned: number;
   photos: string[];
+  reviews?: string[];
 }
 
 export interface Reward {

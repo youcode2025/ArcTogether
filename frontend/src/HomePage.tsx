@@ -6,8 +6,9 @@ import Notification from './components/Notification';
 import type { Event } from './types';
 import { Link } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { initialEvents as constantEvents } from './constants';
 
-// Sample data
+// Sample user data
 const mockUser = {
   id: '1',
   name: 'John Doe',
@@ -17,50 +18,8 @@ const mockUser = {
   skills: '',
 };
 
-const initialEvents: Event[] = [
-  {
-    _id: '1',
-    title: 'Mountain Trail Adventure',
-    description: 'Join us for an exciting day hiking through scenic mountain trails. Perfect for nature enthusiasts and photography lovers.',
-    date: '2024-04-15',
-    location: 'Rocky Mountain National Park',
-    host: 'Sarah Johnson',
-    maxParticipants: 12,
-    currentParticipants: 8,
-    category: 'Hiking',
-    imageUrl: 'https://nuvomagazine.com/wp-content/uploads/2024/03/240129_HopkinsNZ_Percival_02240shrp-scaled.jpg',
-    pointsEarned: 10,
-    photos: []
-  },
-  {
-    _id: '2',
-    title: 'Coastal Kayaking Experience',
-    description: 'Explore the beautiful coastline while kayaking. Suitable for beginners and intermediate paddlers.',
-    date: '2024-04-20',
-    location: 'Pacific Coast',
-    host: 'Mike Chen',
-    maxParticipants: 8,
-    currentParticipants: 5,
-    category: 'Kayaking',
-    imageUrl: 'https://cdn.shoplightspeed.com/shops/627509/files/63302575/arcteryxwomens.png',
-    pointsEarned: 10,
-    photos: []
-  },
-  {
-    _id: '3',
-    title: 'Rock Climbing Workshop',
-    description: 'Learn essential rock climbing techniques with experienced instructors. All safety equipment provided.',
-    date: '2024-04-25',
-    location: 'Boulder Canyon',
-    host: 'Alex Rivera',
-    maxParticipants: 6,
-    currentParticipants: 6,
-    category: 'Rock Climbing',
-    imageUrl: 'https://cdn.sanity.io/images/inkbj32c/production/c584a62a6a460e1e6b13d018e15d4a0c6a7f0894-2694x2157.jpg?auto=format&q=75',
-    pointsEarned: 10,
-    photos: []
-  }
-];
+// Use initialEvents from constants.ts instead of duplicating the data
+const initialEvents = constantEvents;
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>(initialEvents);
@@ -86,14 +45,38 @@ function HomePage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        // Re-enable the API call to get real data
         const response = await fetch('http://localhost:3000/api/activities');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log("API events:", data);
+        
         if (data && data.length > 0) {
-          setEvents(data);
+          // Use the API data and ensure it has all required fields
+          const validatedEvents = data.map((event: any) => ({
+            ...event,
+            // Ensure the event has all required fields
+            photos: event.photos || [],
+            currentParticipants: event.currentParticipants || 0,
+            // Make sure _id is present
+            _id: event._id || `api-${Math.random().toString(16).substring(2, 10)}`
+          }));
+          setEvents(validatedEvents);
+          console.log("Using API events:", validatedEvents);
+        } else {
+          // Fallback to initialEvents if API returns empty data
+          console.log("API returned empty data, using fallback");
+          setEvents(initialEvents);
         }
       } catch (error) {
         console.error('Error fetching events:', error);
         // Keep using initialEvents if there's an error
+        console.log("Error fetching from API, using fallback data");
+        setEvents(initialEvents);
       }
     };
 
@@ -134,12 +117,62 @@ function HomePage() {
   };
 
   const handleCreateEvent = (newEvent: Omit<Event, 'id' | 'currentParticipants'>) => {
+    // Generate a unique ID in MongoDB format to match API format
+    const mongoStyleId = Math.random().toString(16).substring(2, 15) + 
+                         Math.random().toString(16).substring(2, 15);
+                           
     const event: Event = {
       ...newEvent,
-      _id: Math.random().toString(36).substr(2, 9),
-      currentParticipants: 0
+      _id: mongoStyleId, // Use MongoDB-style ID
+      currentParticipants: 0,
+      photos: [], // Initialize empty photos array
     };
+    
+    console.log("Creating new event with ID:", mongoStyleId);
+    console.log("New event data:", event);
+    
+    // Add the new event to the list
     setEvents([...events, event]);
+    
+    // Try to save to API if available
+    try {
+      fetch('http://localhost:3000/api/activities', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(event),
+      }).then(response => {
+        if (response.ok) {
+          return response.json(); 
+        }
+        throw new Error('Failed to save to API');
+      }).then(savedEvent => {
+        // If API returns the saved event with a different ID, update our local copy
+        if (savedEvent && savedEvent._id && savedEvent._id !== event._id) {
+          console.log("API assigned different ID:", savedEvent._id);
+          console.log("Updating local events with API ID");
+          
+          // Update the events list with the API-assigned ID
+          setEvents(prevEvents => 
+            prevEvents.map(e => 
+              e._id === event._id ? { ...e, _id: savedEvent._id } : e
+            )
+          );
+        }
+        console.log("Successfully saved event to API");
+      }).catch(error => {
+        console.error('API save error:', error);
+      });
+    } catch (error) {
+      console.error('Failed to save event to API:', error);
+      // Continue with local event anyway
+    }
+    
+    // Show success notification
+    setNotificationMessage("New event created successfully!");
+    setNotificationType("success");
+    setShowNotification(true);
   };
 
   const handleLogout = () => {
