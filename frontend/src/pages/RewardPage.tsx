@@ -3,6 +3,7 @@ import { Reward, User } from '../types';
 import RewardCard from '../components/RewardCard';
 import { PlusCircle, Compass, Award } from 'lucide-react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import Notification from '../components/Notification';
 
 // Use the same mockUser as in HomePage
 const mockUser: User = {
@@ -40,6 +41,9 @@ const mockRewards: Reward[] = [
 
 export default function RewardPage () {
     const [user, setUser] = useState<User>(mockUser);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
     
     const handleClaimReward = (rewardId: string) => {
         const reward = mockRewards.find(r => r.id === rewardId);
@@ -48,9 +52,15 @@ export default function RewardPage () {
                 ...prev,
                 points: prev.points - reward.pointsRequired
             }));
-            alert(`You've successfully redeemed: ${reward.title}`);
+            // Show success notification
+            setNotificationMessage(`Successfully redeemed: ${reward.title}`);
+            setNotificationType('success');
+            setShowNotification(true);
         } else {
-            alert("You don't have enough points to claim this reward");
+            // Show error notification
+            setNotificationMessage("You don't have enough points for this reward");
+            setNotificationType('error');
+            setShowNotification(true);
         }
     };
     
@@ -125,6 +135,15 @@ export default function RewardPage () {
                 ))}
             </div>
         </main>
+
+        {/* Notification */}
+        {showNotification && (
+            <Notification
+                message={notificationMessage}
+                type={notificationType}
+                onClose={() => setShowNotification(false)}
+            />
+        )}
     </div>)
 }
 

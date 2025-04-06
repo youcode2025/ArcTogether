@@ -66,6 +66,7 @@ function HomePage() {
   const [user, setUser] = useState<User>(mockUser);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -100,6 +101,7 @@ function HomePage() {
         
         // Show notification
         setNotificationMessage(`You earned ${event.pointsEarned} points!`);
+        setNotificationType('success');
         setShowNotification(true);
       }
     }
@@ -224,6 +226,7 @@ function HomePage() {
       {showNotification && (
         <Notification
           message={notificationMessage}
+          type={notificationType}
           onClose={() => setShowNotification(false)}
         />
       )}
