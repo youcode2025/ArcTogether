@@ -1,4 +1,4 @@
-import { Award, Calendar, Info, MapPin, PlusCircle, Tag, User, Users, LogOut, Camera, Upload } from "lucide-react";
+import { Award, Calendar, Info, MapPin, PlusCircle, Tag, User, Users, LogOut, Camera, Upload, Trophy, Home } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { initialEvents } from '../constants';
@@ -434,14 +434,14 @@ const Event = () => {
                 <span className="font-medium">{user?.points || 0} Points</span>
               </div>
               <button className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200">
-                <PlusCircle className="w-5 h-5" />
+                <Trophy className="w-5 h-5" />
                 <Link to="/reward">Reward</Link>
               </button>
               <button
                 onClick={() => navigate("/")}
                 className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
               >
-                <PlusCircle className="w-5 h-5" />
+                <Home className="w-5 h-5" />
                 <span>Home</span>
               </button>
               <button

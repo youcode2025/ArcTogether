@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlusCircle, Compass, Award, LogOut } from 'lucide-react';
+import { PlusCircle, Compass, Award, LogOut, Trophy } from 'lucide-react';
 import EventCard from './components/EventCard';
 import CreateEventModal from './components/CreateEventModal';
 import Notification from './components/Notification';
@@ -223,7 +223,7 @@ function HomePage() {
                 <button
                   className="flex items-center space-x-2 bg-gray-800/90 text-white px-4 py-2 rounded-md hover:bg-gray-900/90 transition-colors duration-200"
                 >
-                  <PlusCircle className="w-5 h-5" />
+                  <Trophy className="w-5 h-5" />
                   <Link to="/reward">Reward</Link>
                 </button>
                 <button

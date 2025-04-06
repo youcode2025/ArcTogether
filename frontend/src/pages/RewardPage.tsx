@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Reward } from '../types';
 import RewardCard from '../components/RewardCard';
-import { PlusCircle, Compass, Award, LogOut } from 'lucide-react';
+import { PlusCircle, Compass, Award, LogOut, Trophy, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Notification from '../components/Notification';
 import { useAuth } from '../contexts/AuthContext';
@@ -119,13 +119,13 @@ const mockRewards: Reward[] = [
                 <button
                   className="flex items-center space-x-2 bg-gray-800/90 text-white px-4 py-2 rounded-md hover:bg-gray-900/90 transition-colors duration-200"
                 >
-                    <PlusCircle className="w-5 h-5" />
+                    <Trophy className="w-5 h-5" />
                     <Link to="/reward">Reward</Link>
                 </button>
                 <button
                     className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
                 >
-                  <PlusCircle className="w-5 h-5" />
+                  <Home className="w-5 h-5" />
                   <Link to="/">Home</Link>
                 </button>
                 <button
