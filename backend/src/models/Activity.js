@@ -15,16 +15,7 @@ const activitySchema = new mongoose.Schema({
     required: true
   },
   location: {
-    type: {
-      name: {
-        type: String,
-        required: true
-      },
-      coordinates: {
-        type: [Number],
-        required: false
-      }
-    },
+    type: String,
     required: true
   },
   participants: {
@@ -38,10 +29,8 @@ const activitySchema = new mongoose.Schema({
     }
   },
   points: {
-    earn: {
-      type: Number,
-      required: true
-    }
+    type: number,
+    required: true
   },
   imageUrl: {
     type: String,
