@@ -353,7 +353,7 @@ const Event = () => {
                 <img 
                         src="\src\assets\images\ArctgtTextB.png" 
                         alt="Arc'Together Text Logo" 
-                        className="h-8 w-auto"
+                        className="h-6 w-auto"
                     />
               </div>
             </div>

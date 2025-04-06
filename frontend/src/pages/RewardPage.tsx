@@ -92,7 +92,11 @@ export default function RewardPage () {
                     alt="Arc'teryx Logo" 
                     className="h-8 w-auto"
                     />
-                    <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Arc'Together</h1>
+                    <img 
+                    src="\src\assets\images\ArctgtTextB.png" 
+                    alt="Arc'Together Text Logo" 
+                    className="h-6 w-auto"
+                    />
                 </div>
                 </div>
                 <div className="flex items-center space-x-4">

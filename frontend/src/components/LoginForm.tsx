@@ -74,7 +74,7 @@ const LoginForm = () => {
         <img 
                         src="\src\assets\images\ArctgtTextB.png" 
                         alt="Arc'Together Text Logo" 
-                        className="h-8 w-auto"
+                        className="h-6 w-auto"
                     />
         <p className="text-center text-gray-700">
           Enter your credentials to access your adventure
