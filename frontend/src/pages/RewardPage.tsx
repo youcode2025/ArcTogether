@@ -42,12 +42,12 @@ const mockRewards: Reward[] = [
   },
   ];
 
-export default function RewardPage () {
+  export default function RewardPage() {
     const { user, logout, updateUser } = useAuth();
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
-    
+  
     const handleClaimReward = (rewardId: string) => {
         const reward = mockRewards.find(r => r.id === rewardId);
         if (reward && user && user.points >= reward.pointsRequired) {
@@ -74,18 +74,30 @@ export default function RewardPage () {
             setShowNotification(true);
         }
     };
-    
+  
     const handleLogout = () => {
-        logout();
+      logout();
     };
-    
+  
     return (
-    <div className="min-h-screen bg-gray-50">
+      <div className="relative min-h-screen bg-gray-50">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('https://uploads-ssl.webflow.com/5a9ee6416e90d20001b20038/6289f10918a3479222c3bdd0_gray-gradient.png')",
+            filter: 'brightness(0.6)',
+          }}
+        ></div>
+  
+        {/* Glassmorphism Overlay Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+  
         {/* Header */}
-        <header className="bg-white border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <header className="relative bg-white/30 backdrop-blur-md border border-white/30 shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-4">
                     <img 
                     src="\src\assets\images\ArctgtLogoB.png" 
@@ -98,14 +110,14 @@ export default function RewardPage () {
                     className="h-6 w-auto"
                     />
                 </div>
-                </div>
-                <div className="flex items-center space-x-4">
+              </div>
+              <div className="flex items-center space-x-4">
                 <div className="flex items-center text-gray-700">
-                    <Award className="h-5 w-5 text-gray-500 mr-2" />
-                    <span className="font-medium">{user?.points || 0} Points</span>
+                  <Award className="h-5 w-5 text-gray-500 mr-2" />
+                  <span className="font-medium">{user?.points || 0} Points</span>
                 </div>
                 <button
-                    className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
+                  className="flex items-center space-x-2 bg-gray-800/90 text-white px-4 py-2 rounded-md hover:bg-gray-900/90 transition-colors duration-200"
                 >
                     <PlusCircle className="w-5 h-5" />
                     <Link to="/reward">Reward</Link>
@@ -113,65 +125,66 @@ export default function RewardPage () {
                 <button
                     className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
                 >
-                    <PlusCircle className="w-5 h-5" />
-                    <Link to="/">Home</Link>
+                  <PlusCircle className="w-5 h-5" />
+                  <Link to="/">Home</Link>
                 </button>
                 <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
                 >
-                    <LogOut className="w-5 h-5" />
-                    <span>Logout</span>
+                  <LogOut className="w-5 h-5" />
+                  <span>Logout</span>
                 </button>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </header>
-
-        <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-            {/* Arc'teryx Rewards Banner */}
-            <div 
-                className="mb-8 rounded-lg shadow-sm p-6 relative overflow-hidden"
-                style={{
-                    backgroundImage: `url('https://cdn.prod.website-files.com/64f1d2cc5e0dab718e3de0c4/64f1d4bda9500669ffb145f6_62d7d2647de98259c48a449a_ss22-arcteryx-hero.jpeg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    minHeight: '200px'
-                }}
-            >
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                
-                <div className="flex flex-col md:flex-row items-center justify-between relative z-10">
-                    <div className="text-center md:text-left mb-4 md:mb-0">
-                        <h2 className="text-3xl font-bold text-white mb-2">Arc'teryx Rewards</h2>
-                        <p className="text-white text-lg">Redeem your points for premium Arc'teryx gear and outdoor experiences</p>
-                    </div>
-                </div>
+  
+        <main className="relative max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          {/* Arc'teryx Rewards Banner */}
+          <div
+            className="mb-8 rounded-lg shadow-lg p-6 relative overflow-hidden backdrop-blur-xl bg-white/20 border border-white/30"
+            style={{
+              backgroundImage: `url('https://cdn.prod.website-files.com/64f1d2cc5e0dab718e3de0c4/64f1d4bda9500669ffb145f6_62d7d2647de98259c48a449a_ss22-arcteryx-hero.jpeg')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              minHeight: '200px',
+            }}
+          >
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+  
+            <div className="flex flex-col md:flex-row items-center justify-between relative z-10">
+              <div className="text-center md:text-left mb-4 md:mb-0">
+                <h2 className="text-3xl font-bold text-white mb-2">Arc'teryx Rewards</h2>
+                <p className="text-white text-lg">Redeem your points for premium Arc'teryx gear and outdoor experiences</p>
+              </div>
             </div>
-
-            <h2 className="text-2xl font-bold text-gray-800 tracking-tight mb-6">Available Rewards</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {mockRewards.map(reward => (
-                    <RewardCard
-                        key={reward.id}
-                        reward={reward}
-                        onClaim={handleClaimReward}
-                        userPoints={user?.points || 0}
-                    />
-                ))}
-            </div>
+          </div>
+  
+          <h2 className="text-2xl font-bold text-gray-800 tracking-tight mb-6">Available Rewards</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {mockRewards.map((reward) => (
+              <RewardCard
+                key={reward.id}
+                reward={reward}
+                onClaim={handleClaimReward}
+                userPoints={user?.points || 0}
+              />
+            ))}
+          </div>
         </main>
-
+  
         {/* Notification */}
         {showNotification && (
-            <Notification
-                message={notificationMessage}
-                type={notificationType}
-                onClose={() => setShowNotification(false)}
-            />
+          <Notification
+            message={notificationMessage}
+            type={notificationType}
+            onClose={() => setShowNotification(false)}
+          />
         )}
-    </div>)
-}
+      </div>
+    );
+  }
 
 
