@@ -13,7 +13,7 @@ export default function CreateEventModal({ onClose, onSubmit }: CreateEventModal
     description: '',
     date: '',
     location: '',
-    hostName: '',
+    host: '',
     maxParticipants: 1,
     category: 'Hiking' as const,
     imageUrl: '',
@@ -37,7 +37,7 @@ export default function CreateEventModal({ onClose, onSubmit }: CreateEventModal
       //   },
       //   points: formData.pointsEarned,
         imageUrl: formData.imageUrl,
-        host: formData.hostName,
+        host: formData.host,
         category: formData.category,  
     };
 
@@ -142,8 +142,8 @@ export default function CreateEventModal({ onClose, onSubmit }: CreateEventModal
                 type="text"
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent"
-                value={formData.hostName}
-                onChange={(e) => setFormData({ ...formData, hostName: e.target.value })}
+                value={formData.host}
+                onChange={(e) => setFormData({ ...formData, host: e.target.value })}
               />
             </div>
 

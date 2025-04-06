@@ -4,7 +4,7 @@ export interface Event {
   description: string;
   date: string;
   location: string;
-  hostName: string;
+  host: string;
   maxParticipants: number;
   currentParticipants: number;
   category: 'Hiking' | 'Cycling' | 'Camping' | 'Rock Climbing' | 'Kayaking';

@@ -46,11 +46,11 @@ export default function EventCard({ event, onJoin, isJoined }: EventCardProps) {
         <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">Hosted by {event.hostName}</span>
+          <span className="text-sm text-gray-500">Hosted by {event.host}</span>
           <button
             onClick={() => onJoin(event._id)}
             disabled={isJoined || event.currentParticipants >= event.maxParticipants}
-            className={`w-full px-4 py-2 rounded-md ${
+            className={`w-1/2 px-4 py-2 rounded-md ${
               isJoined 
                 ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                 : event.currentParticipants >= event.maxParticipants
