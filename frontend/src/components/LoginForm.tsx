@@ -66,12 +66,16 @@ const LoginForm = () => {
       <div className="relative z-10 space-y-1 flex flex-col items-center justify-center pt-8 mb-5">
         <div className="w-40 h-40 mb-0 drop-shadow-lg">
           <img
-            src="https://1000logos.net/wp-content/uploads/2022/05/Arcteryx-Logo.png"
+            src="\src\assets\images\ArctgtLogoB.png"
             alt="Arcteryx Logo"
             className="w-full h-full object-contain"
           />
         </div>
-        <h2 className="text-2xl font-bold text-center text-gray-900 drop-shadow-sm"> Arc'Together </h2>
+        <img 
+                        src="\src\assets\images\ArctgtTextB.png" 
+                        alt="Arc'Together Text Logo" 
+                        className="h-8 w-auto"
+                    />
         <p className="text-center text-gray-700">
           Enter your credentials to access your adventure
         </p>

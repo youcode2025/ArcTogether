@@ -88,7 +88,7 @@ export default function RewardPage () {
                 <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-4">
                     <img 
-                    src="https://1000logos.net/wp-content/uploads/2022/05/Arcteryx-Logo.png" 
+                    src="\src\assets\images\ArctgtLogoB.png" 
                     alt="Arc'teryx Logo" 
                     className="h-8 w-auto"
                     />

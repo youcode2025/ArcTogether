@@ -193,12 +193,16 @@ function HomePage() {
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-4">
                 <img 
-                  src="https://1000logos.net/wp-content/uploads/2022/05/Arcteryx-Logo.png" 
+                  src="\src\assets\images\ArctgtLogoB.png" 
                   alt="Arc'teryx Logo" 
                   className="h-8 w-auto"
                 />
                 {/* <Compass className="w-8 h-8 text-gray-800" /> */}
-                <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Arc'Together</h1>
+                <img 
+                        src="\src\assets\images\ArctgtTextB.png" 
+                        alt="Arc'Together Text Logo" 
+                        className="h-8 w-auto"
+                    />
               </div>
             </div>
             <div className="flex items-center space-x-4">
