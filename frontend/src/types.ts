@@ -10,6 +10,7 @@ export interface Event {
   category: 'Hiking' | 'Cycling' | 'Camping' | 'Rock Climbing' | 'Kayaking';
   imageUrl: string;
   pointsEarned: number;
+  photos: string[];
 }
 
 export interface Reward {

@@ -30,6 +30,7 @@ const initialEvents: Event[] = [
     category: 'Hiking',
     imageUrl: 'https://nuvomagazine.com/wp-content/uploads/2024/03/240129_HopkinsNZ_Percival_02240shrp-scaled.jpg',
     pointsEarned: 10,
+    photos: []
   },
   {
     _id: '2',
@@ -43,6 +44,7 @@ const initialEvents: Event[] = [
     category: 'Kayaking',
     imageUrl: 'https://cdn.shoplightspeed.com/shops/627509/files/63302575/arcteryxwomens.png',
     pointsEarned: 10,
+    photos: []
   },
   {
     _id: '3',
@@ -56,6 +58,7 @@ const initialEvents: Event[] = [
     category: 'Rock Climbing',
     imageUrl: 'https://cdn.sanity.io/images/inkbj32c/production/c584a62a6a460e1e6b13d018e15d4a0c6a7f0894-2694x2157.jpg?auto=format&q=75',
     pointsEarned: 10,
+    photos: []
   }
 ];
 

@@ -5,6 +5,7 @@ import RewardPage from './pages/RewardPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
+import Event from './pages/Event';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Events />} />
             <Route path="/reward" element={<RewardPage />} />
+            <Route path="/event/:id" element={<Event />} />
           </Route>
           
           {/* Redirect any unknown routes to login */}
