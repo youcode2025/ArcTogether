@@ -61,6 +61,7 @@ function App() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
+  
   const handleJoinEvent = (eventId: string) => {
     setEvents(events.map(event => 
       event.id === eventId

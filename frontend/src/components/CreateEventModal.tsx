@@ -20,9 +20,60 @@ export default function CreateEventModal({ onClose, onSubmit }: CreateEventModal
     pointsEarned: 5,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    const transformedData: any = {
+      title: formData.title,
+      description: formData.description,
+      date: new Date(formData.date).toISOString(),
+      location: formData.location,
+      participants: {
+      current: 0,
+      maximum: formData.maxParticipants,
+      },
+      points: formData.pointsEarned,
+      imageUrl: formData.imageUrl,
+      host: formData.hostName,
+      category: formData.category,
+    };
+
+    // SAMPLE DATA FORMAT
+    // title: "hey",
+    // description: "hey",
+    // date: new Date('2023-12-31T23:59:59Z').toISOString(),
+    // location: "ubc",
+    // participants: {
+    // current: 0,
+    // maximum: 5,
+    // },
+    // points: 10,
+    // imageUrl: "https://images.unsplash.com/photo-1741800459649-1992621b796f?q=80&w=2268&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    // host: "Zayan",
+    // category: "Rock Climbing",
+  // };
+
+    console.log(transformedData)
+    try {
+      const response = await fetch('http://localhost:3000/api/activities', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(transformedData),
+      });
+
+      if (!response.ok) {
+      throw new Error('Failed to create event');
+      }
+
+      const result = await response.json();
+      console.log('Event created successfully:', result);
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
+
+    onSubmit(transformedData);
     onClose();
   };
 
