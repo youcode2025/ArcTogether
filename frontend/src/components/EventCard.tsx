@@ -58,7 +58,11 @@ export default function EventCard({ event, onJoin, isJoined }: EventCardProps) {
                 : 'bg-gray-800 text-white hover:bg-gray-700'
             }`}
           >
-            {isJoined ? 'Joined' : 'Join Event'}
+            {isJoined 
+              ? 'Joined' 
+              : event.currentParticipants >= event.maxParticipants
+              ? 'Fully Booked'
+              : 'Join Event'}
           </button>
         </div>
       </div>
