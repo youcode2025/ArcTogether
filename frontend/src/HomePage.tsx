@@ -18,7 +18,7 @@ const mockUser: User = {
 
 const initialEvents: Event[] = [
   {
-    id: '1',
+    _id: '1',
     title: 'Mountain Trail Adventure',
     description: 'Join us for an exciting day hiking through scenic mountain trails. Perfect for nature enthusiasts and photography lovers.',
     date: '2024-04-15',
@@ -31,7 +31,7 @@ const initialEvents: Event[] = [
     pointsEarned: 10,
   },
   {
-    id: '2',
+    _id: '2',
     title: 'Coastal Kayaking Experience',
     description: 'Explore the beautiful coastline while kayaking. Suitable for beginners and intermediate paddlers.',
     date: '2024-04-20',
@@ -44,7 +44,7 @@ const initialEvents: Event[] = [
     pointsEarned: 10,
   },
   {
-    id: '3',
+    _id: '3',
     title: 'Rock Climbing Workshop',
     description: 'Learn essential rock climbing techniques with experienced instructors. All safety equipment provided.',
     date: '2024-04-25',
@@ -83,11 +83,11 @@ function HomePage() {
 
   const handleJoinEvent = (eventId: string) => {
     if (!joinedEvents.has(eventId)) {
-      const event = events.find(e => e.id === eventId);
+      const event = events.find(e => e._id === eventId);
       if (event) {
         setEvents(events.map(e => 
-          e.id === eventId
-            ? { ...e, currentParticipants: e.currentParticipants + 1 }
+        e._id === eventId
+        ? { ...e, currentParticipants: e.currentParticipants + 1 }
             : e
         ));
         setJoinedEvents(prev => new Set([...prev, eventId]));
@@ -108,7 +108,7 @@ function HomePage() {
   const handleCreateEvent = (newEvent: Omit<Event, 'id' | 'currentParticipants'>) => {
     const event: Event = {
       ...newEvent,
-      id: Math.random().toString(36).substr(2, 9),
+      _id: Math.random().toString(36).substr(2, 9),
       currentParticipants: 0
     };
     setEvents([...events, event]);
@@ -203,10 +203,10 @@ function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredEvents.map(event => (
             <EventCard
-              key={event.id}
+              key={event._id}
               event={event}
               onJoin={handleJoinEvent}
-              isJoined={joinedEvents.has(event.id)}
+              isJoined={joinedEvents.has(event._id)}
             />
           ))}
         </div>
