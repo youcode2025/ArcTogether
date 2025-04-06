@@ -12,6 +12,19 @@ export interface Event {
   pointsEarned: number;
 }
 
+export interface Reward {
+  id: string;
+  title: string;
+  description: string;
+  pointsRequired: number;
+  imageUrl: string;
+}
+
+export interface RewardCardProps {
+  reward: Reward;
+  onClaim: (rewardId: string) => void;
+}
+
 export interface EventCardProps {
   event: Event;
   onJoin: (eventId: string) => void;
