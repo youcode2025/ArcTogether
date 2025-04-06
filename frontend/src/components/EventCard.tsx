@@ -6,22 +6,22 @@ export default function EventCard({ event, onJoin }: EventCardProps) {
   const isFullyBooked = event.currentParticipants >= event.maxParticipants;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02]">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden transition-transform hover:scale-[1.02] border border-gray-100">
       <div className="relative h-48">
         <img
           src={event.imageUrl}
           alt={event.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold">
+        <div className="absolute top-4 right-4 bg-white/90 text-gray-800 px-3 py-1 rounded-md text-sm font-medium border border-gray-200">
           {event.category}
         </div>
       </div>
       
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-2 tracking-tight">{event.title}</h3>
         
-        <div className="space-y-2 mb-4">
+        <div className="space-y-3 mb-4">
           <div className="flex items-center text-gray-600">
             <Calendar className="w-4 h-4 mr-2" />
             <span>{new Date(event.date).toLocaleDateString()}</span>
@@ -39,7 +39,7 @@ export default function EventCard({ event, onJoin }: EventCardProps) {
 
           <div className="flex items-center text-gray-600">
             <Award className="w-4 h-4 mr-2" />
-            <span>{event.pointsEarned}</span>
+            <span>{event.pointsEarned} points</span>
           </div>
         </div>
         
@@ -50,10 +50,10 @@ export default function EventCard({ event, onJoin }: EventCardProps) {
           <button
             onClick={() => onJoin(event.id)}
             disabled={isFullyBooked}
-            className={`px-4 py-2 rounded-lg font-semibold ${
+            className={`px-4 py-2 rounded-md font-medium ${
               isFullyBooked
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : 'bg-green-600 text-white hover:bg-green-700'
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-800 text-white hover:bg-gray-700'
             }`}
           >
             {isFullyBooked ? 'Fully Booked' : 'Join Event'}
