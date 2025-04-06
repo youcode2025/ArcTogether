@@ -61,14 +61,17 @@ function HomePage() {
   const [events, setEvents] = useState<Event[]>(initialEvents);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [joinedEvents, setJoinedEvents] = useState<Set<string>>(new Set());
 
-  
   const handleJoinEvent = (eventId: string) => {
-    setEvents(events.map(event => 
-      event.id === eventId
-        ? { ...event, currentParticipants: event.currentParticipants + 1 }
-        : event
-    ));
+    if (!joinedEvents.has(eventId)) {
+      setEvents(events.map(event => 
+        event.id === eventId
+          ? { ...event, currentParticipants: event.currentParticipants + 1 }
+          : event
+      ));
+      setJoinedEvents(prev => new Set([...prev, eventId]));
+    }
   };
 
   const handleCreateEvent = (newEvent: Omit<Event, 'id' | 'currentParticipants'>) => {
@@ -172,6 +175,7 @@ function HomePage() {
               key={event.id}
               event={event}
               onJoin={handleJoinEvent}
+              isJoined={joinedEvents.has(event.id)}
             />
           ))}
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Calendar, MapPin, Users, Award, Activity } from 'lucide-react';
 import { EventCardProps } from '../types';
 
-export default function EventCard({ event, onJoin }: EventCardProps) {
+export default function EventCard({ event, onJoin, isJoined }: EventCardProps) {
   const isFullyBooked = event.currentParticipants >= event.maxParticipants;
 
   return (
@@ -49,14 +49,14 @@ export default function EventCard({ event, onJoin }: EventCardProps) {
           <span className="text-sm text-gray-500">Hosted by {event.hostName}</span>
           <button
             onClick={() => onJoin(event.id)}
-            disabled={isFullyBooked}
+            disabled={isFullyBooked || isJoined}
             className={`px-4 py-2 rounded-md font-medium ${
-              isFullyBooked
+              isFullyBooked || isJoined
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-800 text-white hover:bg-gray-700'
             }`}
           >
-            {isFullyBooked ? 'Fully Booked' : 'Join Event'}
+            {isFullyBooked ? 'Fully Booked' : isJoined ? 'Joined' : 'Join Event'}
           </button>
         </div>
       </div>

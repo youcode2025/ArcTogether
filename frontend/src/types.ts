@@ -28,6 +28,7 @@ export interface RewardCardProps {
 export interface EventCardProps {
   event: Event;
   onJoin: (eventId: string) => void;
+  isJoined: boolean;
 }
 
 export interface User {
