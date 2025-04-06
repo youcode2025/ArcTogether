@@ -34,7 +34,7 @@ const LoginPage = () => {
       </div>
       
       <div className="mt-8 text-center text-white/80 text-xs animate-fade-in relative z-10">
-        &copy; {new Date().getFullYear()} Outdoor Exchange. All rights reserved.
+        &copy; {new Date().getFullYear()} Arc'Together. All rights reserved.
       </div>
     </div>
   );

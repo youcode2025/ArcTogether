@@ -92,7 +92,7 @@ export default function RewardPage () {
                     alt="Arc'teryx Logo" 
                     className="h-8 w-auto"
                     />
-                    <h1 className="text-2xl font-bold text-gray-800 tracking-tight">OUTDOOR EXCHANGE</h1>
+                    <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Arc'Together</h1>
                 </div>
                 </div>
                 <div className="flex items-center space-x-4">

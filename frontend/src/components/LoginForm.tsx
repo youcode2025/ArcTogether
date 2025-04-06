@@ -71,7 +71,7 @@ const LoginForm = () => {
             className="w-full h-full object-contain"
           />
         </div>
-        <h2 className="text-2xl font-bold text-center text-gray-900 drop-shadow-sm">OUTDOOR EXCHANGE</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900 drop-shadow-sm"> Arc'Together </h2>
         <p className="text-center text-gray-700">
           Enter your credentials to access your adventure
         </p>

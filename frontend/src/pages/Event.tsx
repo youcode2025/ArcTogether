@@ -351,7 +351,7 @@ const Event = () => {
                   className="h-8 w-auto"
                 />
                 <h1 className="text-2xl font-bold text-gray-800 tracking-tight">
-                  OUTDOOR EXCHANGE
+                Arc'Together
                 </h1>
               </div>
             </div>

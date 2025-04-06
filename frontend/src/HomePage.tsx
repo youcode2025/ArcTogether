@@ -198,7 +198,7 @@ function HomePage() {
                   className="h-8 w-auto"
                 />
                 {/* <Compass className="w-8 h-8 text-gray-800" /> */}
-                <h1 className="text-2xl font-bold text-gray-800 tracking-tight">OUTDOOR EXCHANGE</h1>
+                <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Arc'Together</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
