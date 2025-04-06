@@ -7,27 +7,39 @@ import Notification from '../components/Notification';
 import { useAuth } from '../contexts/AuthContext';
 
 const mockRewards: Reward[] = [
-    {
-      id: '1',
-      title: 'Mountain Trail Adventure',
-      description: 'Join us for an exciting day hiking through scenic mountain trails. Perfect for nature enthusiasts and photography lovers.',
-      imageUrl: 'https://nuvomagazine.com/wp-content/uploads/2024/03/240129_HopkinsNZ_Percival_02240shrp-scaled.jpg',
-      pointsRequired: 10,
-    },
-    {
-        id: '2',
-        title: 'Jacket',
-        description: 'Premium Arc\'teryx jacket designed for outdoor activities. Waterproof and windproof with exceptional durability.',
-        imageUrl: 'https://cdn.sanity.io/images/c1chvb1i/production/cf90a23e55ef15556a389a4f277288a4e138d566-1192x1192.jpg',
-        pointsRequired: 300,
-    },
-    {
-        id: '3',
-        title: 'Hiking Backpack',
-        description: 'Ergonomic backpack with multiple compartments perfect for day hikes or weekend adventures.',
-        imageUrl: 'https://cdn.sanity.io/images/c1chvb1i/production/bb74b1d799e94c73bc524b4c38c6c5a75b445c60-1944x1944.jpg',
-        pointsRequired: 200,
-    },
+  {
+    id: "1",
+    title: "Arcteryx Gift Card $30",
+    description:
+      "Get a $30 gift card to Arcteryx, perfect for outdoor gear shopping.",
+    imageUrl:
+      "https://pbs.twimg.com/media/DRZ-B1fXUAAtIMx.jpg",
+    pointsRequired: 150,
+  },
+  {
+    id: "2",
+    title: "Arcteryx Backpack",
+    description: "Stylish and functional backpack for all your outdoor adventures.",
+    imageUrl:
+      "https://images.arcteryx.com/S25/1350x1710/Ion-Lightweight-Chalk-Bag-Black.jpg",
+    pointsRequired: 300,
+  },
+  {
+    id: "3",
+    title: "Arcteryx Merino Wool Mid Bird Sock",
+    description: "Comfortable and warm socks for your outdoor activities.",
+    imageUrl:
+      "https://images.arcteryx.com/S25/1350x1710/Merino-Wool-Mid-Bird-Sock-Black-Graphite.jpg",
+    pointsRequired: 40,
+  },
+  {
+    id: "4",
+    title: "Arcteryx Gift Card $25",
+    description: "Get a $25 gift card to Arcteryx, perfect for outdoor gear shopping.",
+    imageUrl:
+      "https://pbs.twimg.com/media/DRZ-B1fXUAAtIMx.jpg",
+    pointsRequired: 80,
+  },
   ];
 
 export default function RewardPage () {
