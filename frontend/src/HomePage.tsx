@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PlusCircle, Compass, Award } from 'lucide-react';
 import EventCard from './components/EventCard';
 import CreateEventModal from './components/CreateEventModal';
+import Notification from './components/Notification';
 import { Event, User } from './types';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
@@ -62,15 +63,25 @@ function HomePage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [joinedEvents, setJoinedEvents] = useState<Set<string>>(new Set());
+  const [user, setUser] = useState<User>(mockUser);
+  const [notification, setNotification] = useState<{ message: string } | null>(null);
 
   const handleJoinEvent = (eventId: string) => {
     if (!joinedEvents.has(eventId)) {
-      setEvents(events.map(event => 
-        event.id === eventId
-          ? { ...event, currentParticipants: event.currentParticipants + 1 }
-          : event
-      ));
-      setJoinedEvents(prev => new Set([...prev, eventId]));
+      const event = events.find(e => e.id === eventId);
+      if (event) {
+        setEvents(events.map(event => 
+          event.id === eventId
+            ? { ...event, currentParticipants: event.currentParticipants + 1 }
+            : event
+        ));
+        setJoinedEvents(prev => new Set([...prev, eventId]));
+        setUser(prev => ({
+          ...prev,
+          points: prev.points + event.pointsEarned
+        }));
+        setNotification({ message: `You earned ${event.pointsEarned} points!` });
+      }
     }
   };
 
@@ -90,6 +101,12 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {notification && (
+        <Notification
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
       {/* Header */}
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
@@ -108,7 +125,7 @@ function HomePage() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center text-gray-700">
                 <Award className="h-5 w-5 text-gray-500 mr-2" />
-                <span className="font-medium">{mockUser.points} Points</span>
+                <span className="font-medium">{user.points} Points</span>
               </div>
               <button
                 className="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
