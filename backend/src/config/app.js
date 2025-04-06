@@ -22,12 +22,16 @@ console.log(uri)
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 const express = require('express');
+const cors = require('cors');
 
 // start server
 const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+app.use(cors());
+app.use(cors({ origin: '*' }));
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
