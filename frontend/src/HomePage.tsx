@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import { PlusCircle, Compass, Award } from 'lucide-react';
 import EventCard from './components/EventCard';
 import CreateEventModal from './components/CreateEventModal';
@@ -59,42 +59,34 @@ const initialEvents: Event[] = [
 ];
 
 function HomePage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>(initialEvents);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [joinedEvents, setJoinedEvents] = useState<Set<string>>(new Set());
   const [user, setUser] = useState<User>(mockUser);
-  const [notification, setNotification] = useState<{ message: string } | null>(null);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/activities');
-            const data = await response.json();
-            setEvents(data);
-        } catch (error) {
-            console.error('Error fetching events:', error);
-        }
-    };
-
-    fetchEvents();
-}, []);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   const handleJoinEvent = (eventId: string) => {
     if (!joinedEvents.has(eventId)) {
       const event = events.find(e => e.id === eventId);
       if (event) {
-        setEvents(events.map(event => 
-          event.id === eventId
-            ? { ...event, currentParticipants: event.currentParticipants + 1 }
-            : event
+        setEvents(events.map(e => 
+          e.id === eventId
+            ? { ...e, currentParticipants: e.currentParticipants + 1 }
+            : e
         ));
         setJoinedEvents(prev => new Set([...prev, eventId]));
+        
+        // Update user points
         setUser(prev => ({
           ...prev,
           points: prev.points + event.pointsEarned
         }));
-        setNotification({ message: `You earned ${event.pointsEarned} points!` });
+        
+        // Show notification
+        setNotificationMessage(`You earned ${event.pointsEarned} points!`);
+        setShowNotification(true);
       }
     }
   };
@@ -115,12 +107,6 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {notification && (
-        <Notification
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
       {/* Header */}
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
@@ -219,6 +205,14 @@ function HomePage() {
           />
         )}
       </main>
+
+      {/* Notification */}
+      {showNotification && (
+        <Notification
+          message={notificationMessage}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
     </div>
   );
 }

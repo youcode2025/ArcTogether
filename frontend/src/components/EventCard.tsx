@@ -49,14 +49,16 @@ export default function EventCard({ event, onJoin, isJoined }: EventCardProps) {
           <span className="text-sm text-gray-500">Hosted by {event.hostName}</span>
           <button
             onClick={() => onJoin(event.id)}
-            disabled={isFullyBooked || isJoined}
-            className={`px-4 py-2 rounded-md font-medium ${
-              isFullyBooked || isJoined
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            disabled={isJoined || event.currentParticipants >= event.maxParticipants}
+            className={`w-full px-4 py-2 rounded-md ${
+              isJoined 
+                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                : event.currentParticipants >= event.maxParticipants
+                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                 : 'bg-gray-800 text-white hover:bg-gray-700'
             }`}
           >
-            {isFullyBooked ? 'Fully Booked' : isJoined ? 'Joined' : 'Join Event'}
+            {isJoined ? 'Joined' : 'Join Event'}
           </button>
         </div>
       </div>
