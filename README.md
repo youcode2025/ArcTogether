@@ -1,5 +1,9 @@
 # youcode2025: Arc'Together
 
+
+https://github.com/user-attachments/assets/ccbe20f4-ebb0-4d7d-b07a-d4e1de0190f7
+
+
 ## Inspiration
 Many people are eager to learn activities like climbing, hiking, or backcountry skiing but hesitate due to expensive lessons or lack of guidance. Additionally, outdoor enthusiasts often stay within their own circles—skiers with skiers, climbers with climbers—missing opportunities to connect across various outdoor activities.  
 
