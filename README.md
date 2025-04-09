@@ -25,5 +25,7 @@ In the future, we want to create user profiles more intuitive and have more feat
 
 New features like achievement badges and perhaps in-app messaging will make communication or changes of plans for the event easier, keeping the community engaged between adventures.
 
-
+## How to run this project
+For front end, cd to frontend directory, npm run dev
+For back end, cd to backend => src => config, node app.js
 
