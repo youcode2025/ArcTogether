@@ -27,5 +27,6 @@ New features like achievement badges and perhaps in-app messaging will make comm
 
 ## How to run this project
 For front end, cd to frontend directory, npm run dev
+
 For back end, cd to backend => src => config, node app.js
 
