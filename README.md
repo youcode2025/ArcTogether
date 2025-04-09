@@ -7,7 +7,7 @@ https://github.com/user-attachments/assets/ccbe20f4-ebb0-4d7d-b07a-d4e1de0190f7
 ## Inspiration
 Many people are eager to learn activities like climbing, hiking, or backcountry skiing but hesitate due to expensive lessons or lack of guidance. Additionally, outdoor enthusiasts often stay within their own circles—skiers with skiers, climbers with climbers—missing opportunities to connect across various outdoor activities.  
 
-Inspired by Arc’teryx’s mission of "Giving Back," we asked: What if sharing skills could become the currency of connection? Arc’Together was created to break down barriers, foster mentorship, and make outdoor adventures more accessible and social, aligning with the purpose of promoting outdoor connectivity within our community!  
+Inspired by Arc’teryx’s mission of "Giving Back," we asked: "What if sharing skills could become the currency of connection?" Arc’Together was created to break down barriers, foster mentorship, and make outdoor adventures more accessible and social, aligning with the purpose of promoting outdoor connectivity within our community!  
 
 ## What It Does
 Arc’Together is a skill-sharing platform where outdoor enthusiasts or beginners can:  
@@ -29,8 +29,22 @@ In the future, we want to create user profiles more intuitive and have more feat
 
 New features like achievement badges and perhaps in-app messaging will make communication or changes of plans for the event easier, keeping the community engaged between adventures.
 
-## How to run this project
-For front end, cd to frontend directory, npm run dev
+## How to Run This Project
+To run the frontend, do:
 
-For back end, cd to backend => src => config, node app.js
+```bash
+cd frontend
+npm run dev
+```
 
+To run the backend, do:
+```bash
+cd backend/src/config
+node app.js
+```
+
+>NOTE: For the database to work properly, you will need a `.env` file in `/backend` with the following config:
+> ```bash
+> MONGODB_URI=<your-mongodb-uri-here>
+> PORT=<your-port-here>
+> ``` 
